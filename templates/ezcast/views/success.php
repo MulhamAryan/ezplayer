@@ -1,0 +1,1 @@
+<?php $msg = "<div class=\"alert success\" role=\"alert\">{$message}</div>"; ?>

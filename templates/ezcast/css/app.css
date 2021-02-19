@@ -1,0 +1,256 @@
+html,body{
+    height: 100%;
+    margin: 0!important;
+    font-size: 14px !important;
+}
+textarea:hover,
+input[type="text"]:hover,
+input[type="password"]:hover,
+textarea:active,
+input[type="text"]:active,
+input[type="password"]:active,
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+    outline:0 !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
+}
+
+a{
+    text-decoration: none !important;
+}
+.container-fluid{
+    padding: 0 !important;
+}
+
+.navbar-grey{
+    background-color: #fff;
+}
+.bd-sidebar {
+    padding: 0!important;
+    border-right: 1px solid #e6e6e6 !important;
+}
+.full-height{
+    height: 100%;
+    margin: 0;
+}
+ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+ul li a{
+    display: block;
+}
+.inline{
+    list-style: none;
+}
+.inline.custom li{
+    width: 100%;
+    border-bottom: 1px solid #e6e6e6;
+}
+.search{
+    border-radius: 0.25rem;
+}
+
+.width-control{
+    max-width: 100%;
+    margin: auto;
+    border: 1px solid #e6e6e6;
+}
+.expand-bar{
+    display: inline-block;
+    font-size: 2rem;
+    vertical-align: middle;
+}
+.bd-sidebar{
+    z-index: 999;
+    background-color: #FFF;
+}
+.bg-light-more{
+    background-color: #f9f9f9;
+}
+
+@media (max-width: 575.98px) {
+
+    .bd-sidebar{
+        position: absolute;
+        display: none;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .bd-sidebar{
+        position: absolute;
+        display: none;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}
+div{
+    border: 0px solid #4d4d4d;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #ccc;
+    color: #006080;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    position: absolute;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip-right {
+    top: -5px;
+    left: 125%;
+}
+
+.tooltip-right::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #555 transparent transparent;
+}
+
+.tooltip-bottom {
+    top: 135%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+
+.tooltip-top {
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip-top::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip-left {
+    top: -5px;
+    bottom:auto;
+    right: 128%;
+}
+
+.tooltip-left::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #555;
+}
+
+.videoPlayer{
+    position: absolute;
+    max-width: 600px;
+    height: auto;
+    background-color: #000000;
+}
+
+
+.record .image{
+    position: relative;
+    background-size: 120%;
+    background-color: #4d4d4d;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 150px;
+    height: 100px;
+    border-radius: 3px;
+}
+.record .image .duration{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    font-size: 12px;
+    color: #FFFFFF;
+    padding: 4px;
+    margin: 2px;
+    border-radius: 4px;
+}
+.profile span{
+    display: inline-block;
+}
+.profile .imgprofile{
+    text-align: center;
+    font-size: 40px;
+    border-radius: 50%;
+    margin: 10px;
+    width: 70px;
+    height: 70px;
+    background-color: #4d4d4d;
+    color: #ffffff;
+}
+
+.commentprofile{
+    text-align: center;
+    font-size: 30px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    background-color: #4d4d4d;
+    color: #ffffff;
+}

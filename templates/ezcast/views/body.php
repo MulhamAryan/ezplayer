@@ -1,0 +1,1 @@
+<div class="col bd-content bg-light border-right" id="homepage">
