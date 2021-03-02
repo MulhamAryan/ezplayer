@@ -14,7 +14,7 @@
     //TODO Create Access check
     //$type        = $sys->input("type",SET_STRING);
     //$recordID    = $sys->input("recordid",SET_INT);
-    //$recordInfo  = $sys->instance(CHK_RECORD,$recordID);
+    //$recordInfo  = $auth->instance(CHK_RECORD,$recordID);
     echo $player->m3u();
 
     //$ctrl->load("player/m3u");

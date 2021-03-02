@@ -3,7 +3,6 @@
     class Templates extends System {
 
         private $auth;
-        //private $lang;
 
         public function __construct()
         {
@@ -32,7 +31,13 @@
         {
             $ajax = $this->input("ajax",SET_INT);
             if($this->auth->isLogged() == true) {
-                $userCoursesCache = $this->getCache(Cache::userDir . "/{$this->auth->getInfo(LOGIN_USER_LOGIN, 0)}/" . Cache::user_courses_menu);
+                if($this->auth->getInfo(LOGIN_IS_GUEST) == true){
+                    $cacheDir = Cache::guestDir;
+                }
+                else{
+                    $cacheDir = Cache::userDir;
+                }
+                $userCoursesCache = $this->getCache($cacheDir . "/{$this->auth->getInfo(LOGIN_USER_LOGIN, 0)}/" . Cache::user_courses_menu);
             }
             if($ajax != 1) {
                 require $this->load("header.php");
@@ -72,5 +77,19 @@
 
         public function selected($val1,$val2){
             return ($val1 == $val2 ? "selected" : "");
+        }
+
+        public function getAdminList(){
+            foreach (new DirectoryIterator($this->config->directory["admin"]) as $item){
+                if($item->isDir() && !$item->isDot()){
+                    $urlListFile = $this->config->directory["admin"] . "/" . $item->getFilename() . "/urls.php";
+                    if (file_exists($urlListFile)){
+                        require_once $urlListFile;
+                        $menu[] = $urls;
+                    }
+                    unset($urlListFile);
+                }
+            }
+            return $menu;
         }
     }

@@ -13,9 +13,9 @@
 
     $courseID    = $sys->input("id",SET_INT);
 
-    $courseInfo  = $sys->instance(CHK_COURSE,$courseID);
+    $courseInfo  = $auth->instance(CHK_COURSE,$courseID);
 
-    $canAccess   = $sys->getEnrollment(ENR_CAN_ACCESS,$courseID);
-    $permissions = $sys->getEnrollment(ENR_ACCESS_TYPE,$courseID);
+    $canAccess   = $auth->getEnrollment(ENR_CAN_ACCESS,$courseID);
+    $permissions = $auth->getEnrollment(ENR_ACCESS_TYPE,$courseID);
 
     $ctrl->load("course");

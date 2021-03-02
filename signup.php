@@ -14,22 +14,27 @@
         $token = $sys->input("token", SET_STRING);
         $type  = $sys->input("type", SET_STRING);
         if ($type == "course") {
-            $courseSql = array(
-                "table" => Databases::courses,
-                "fields" => array(
-                    "id" => $id,
-                    "token" => $token,
-                    "anon_access" => 3
-                )
-            );
+            if($config->cache["enabled"] == true){
+                $courseFile = Cache::courseDir . "/" . $id . "/" . Cache::courseInfo;
+                $instance   = $sys->getCache($courseFile);
+            }
+            else {
+                $courseSql = array(
+                    "table" => Databases::courses,
+                    "fields" => array(
+                        "id" => $id,
+                        "token" => $token,
+                        "anon_access" => 3
+                    )
+                );
+                $instance = $sys->select($courseSql);
+            }
         }
         else{
             $sys->redirect("index.php");
         }
-
-        $courseInfo = $sys->select($courseSql);
-        if($courseInfo != false) {
-            $courseInfo["type"] = $type;
+        if($instance != false) {
+            $instance["type"] = $type;
             $ctrl->load("signup");
         }
         else{

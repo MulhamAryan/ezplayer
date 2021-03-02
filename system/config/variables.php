@@ -17,6 +17,7 @@
         error_reporting(E_ALL);
     }
     $config->url = "https://ezcasttest.ulb.ac.be/newezplayer/";
+    $config->mail = "noreply@ezcasttest.ulb.ac.be";
     $config->repository = "/var/www/repository/";
     $config->activeTemplate = "ezcast";
     $config->template = array(

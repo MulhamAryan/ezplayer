@@ -8,9 +8,9 @@
 
     $auth->requireLogin();
     $courseID = $sys->input("courseid",SET_INT);
-    $courseInfo  = $sys->instance(CHK_COURSE,$courseID);
+    $courseInfo  = $auth->instance(CHK_COURSE,$courseID);
     if($courseInfo != false) {
-        $permissions = $sys->getEnrollment(ENR_ACCESS_TYPE, $courseID);
+        $permissions = $auth->getEnrollment(ENR_ACCESS_TYPE, $courseID);
 
         if (in_array("add", $permissions) == true && !empty($_FILES) && isset($_FILES)) {
             $intro        = $sys->input("intro",SET_STRING);
@@ -24,7 +24,7 @@
             $type         = $sys->input("type",SET_STRING);
             $downloadable = $sys->input("downloadable",SET_INT);
             $user_id      = $auth->getInfo(LOGIN_USER_ID);
-            $upload = new Upload(queues_submit_uploads,$courseInfo,$user_id);
+            $upload       = new Upload(queues_submit_uploads,$courseInfo,$user_id);
 
             if(empty($intro) || empty($add_title) || empty($credits) || empty($ratio) || empty($title) || empty($type) || empty($downloadable) && empty($_FILES)){
                 $msg = array(
@@ -71,8 +71,6 @@
                     echo $ans;
                     exit();
                 }
-                //$ans = json_encode($uploadAns,JSON_PRETTY_PRINT);
-                //echo $uploadAns["error"];
             }
         }
         else {

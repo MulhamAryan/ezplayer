@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>PODCAST</title>
+    <base href="<?=$this->config->url;?>">
     <link rel="stylesheet" href="<?=$this->config->template["css"];?>/bootstrap/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="<?=$this->config->template["cssdir"];?>/fontawesome/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="<?=$this->config->template["css"];?>/app.css" crossorigin="anonymous">
@@ -25,9 +26,9 @@
                 <div class="clear"></div>
             </div>
             <div class="float-left col-xl-6 col-md-6 d-none d-md-block">
-                <form method="post" action="search.php?do=search">
+                <form method="get" action="search.php?">
                     <div class="input-group search">
-                        <input class="form-control pt-2 pb-2 border-right-0 rounded-0" type="text" placeholder="Chercher un cours ...">
+                        <input class="form-control pt-2 pb-2 border-right-0 rounded-0" type="text" placeholder="Chercher un cours ..." name="q" value="<?=$this->input("q",SET_STRING);?>">
                         <span class="input-group-append">
                         <button class="input-group-text bg-transparent border-left-0 rounded-0" type="submit"><i class="fas fa-search p-2" id="expandBarButton"></i></button>
                     </span>

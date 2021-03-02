@@ -15,9 +15,9 @@
                 <?php if(isset($error)) echo $error; ?>
                 <div id="formSignup">
                     <form method="post" action="ajax/signup.php" id="signup">
-                        <input type="hidden" value="<?=$courseInfo["id"];?>" name="id">
-                        <input type="hidden" value="<?=$courseInfo["token"];?>" name="token">
-                        <input type="hidden" value="<?=$courseInfo["type"];?>" name="type">
+                        <input type="hidden" value="<?=$instance["id"];?>" name="id">
+                        <input type="hidden" value="<?=$instance["token"];?>" name="token">
+                        <input type="hidden" value="<?=$instance["type"];?>" name="type">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-user pt-2 pb-2"></i></span></div>
                             <input type="text" name="forname" id="forname" class="form-control pt-2 pb-2" placeholder="<?=$this->lang["forname"];?>" aria-label="forname" aria-describedby="basic-addon1" required>
@@ -123,11 +123,11 @@
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
-                var resp = JSON.parse(this.responseText);
+                let resp = JSON.parse(this.responseText);
                 if(resp.error === true){
                     cssclass = "alert-danger"
                 }
-                else{
+                else if(resp.error === false){
                     cssclass = "alert-success";
                     document.getElementById("formSignup").innerHTML = "";
                     document.getElementById("formSignup").style.display = "none";

@@ -10,6 +10,7 @@
     $lang["no_access"]   = "Vous n'êtes pas autorisé à accéder à ce cours";
     $lang["no_course_found"] = "Le cours n'existe pas !";
     $lang["contact_rsp"] = "Veuillez contacter le responsable du cours ou contacter l'équipe Podcast";
+    $lang["my_courses"] = "Mes cours";
     $lang["add_content"] = "Ajouter du contenu";
     $lang["edit_course"] = "Modifier le cours";
     $lang["delete_course"] = "Supprimer le cours";
@@ -20,7 +21,6 @@
     $lang["empty_course"] = "Aucun enregistrement n'a été publié pour le moment";
     $lang["close"] = "Fermer";
     $lang["submit"] = "Soumettre";
-    $lang["course"] = "Cours";
     $lang["title"] = "Titre";
     $lang["max_carac70"] = "Max. 70 caractères";
     $lang["description"] = "Description";
@@ -99,3 +99,56 @@
     $lang["wrong_username_format"] = "Format de nom d'utilisateur incorrect";
     $lang["wrong_password_validation"] = "Mauvaise validation de mot de passe";
     $lang["signup_successful"] = "Merci pour votre inscription, vous avez reçu une confirmation, veuillez confirmer votre email.";
+    $lang["email_activation_needed"] = "Nous vous avons envoyé un e-mail. Veuillez vérifier votre boîte de réception et suivre les instructions pour terminer votre inscription.";
+
+    $lang["admin"] = array(
+        "auditorium" => "Auditoires",
+        "users" => "Utilisateurs",
+        "courses" => "Cours",
+        "auditorium_list" => "Liste des auditoires",
+        "add_auditorium" => "Ajouter un auditoire",
+        "users_list" => "Liste des utilisateurs",
+        "add_user" => "Ajouter un utilisateur",
+        "courses_list" => "Liste des cours",
+        "add_course" => "Ajouter un cours",
+        "configurations" => "Configurations",
+        "regenerate_cache" => "Régénérer le cache des cours",
+        "saved" => "Operation terminée avec succès",
+        "confirm_delete" => "Etes-vous sûr(e) de vouloir supprimer l`utilisateur ?",
+        "monitoring" => "Monitoring",
+        "jobs_list" => "Liste des jobs",
+        "renderers_list" => "Liste des renderers"
+    );
+    $lang["course"] = array(
+        "name" => "Cours",
+        "code" => "Mnémonique",
+        "title" => "Intitulé",
+        "search" => "Rechercher un cours",
+        "processing" => "Enregistrements en cours de traitement",
+        "scheduled" => "Enregistrements dont le traitement est prévu",
+        "failed" => "Échec du traitement"
+    );
+
+    $lang["users"] = array(
+        "search" => "Rechercher un utilisateur",
+        "id" => "ID Utilisateur",
+        "username" => "Nom utilisateur (ULBID)",
+        "name" => "Nom ou prènom",
+        "fullname" => "Nom et prènom",
+        "exists" => "Nom utilisateur (ULBID) ou email exists deja",
+        "empty_field" => "Vous devez remplir tous les champs !",
+        "restore" => "Restaurer l`utilisateur",
+        "deleted" => "Utilisateur supprimer",
+        "restored" => "Utilisateur restaurer"
+    );
+
+    $lang["records"] = array(
+        "processing_status" => "États des traitements"
+    );
+
+    $lang["internal"] = "Interne";
+    $lang["external"] = "Externe";
+    $lang["origin"] = "Origine";
+    $lang["search"] = "Chercher";
+    $lang["options"] = "Options";
+    $lang["since2"] = "Depuis";

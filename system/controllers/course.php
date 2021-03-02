@@ -19,20 +19,35 @@
         }
 
         $records = $sys->getCache(Cache::courseDir . "/{$courseID}/" . Cache::records_list);
-
-        $countPrivateRecord = 0;
-        $countPublicRecord  = 0;
-        if(!empty($records)){
-            foreach ($records as $recordCount){
-                if($recordCount["private"] == 1)
-                    $countPrivateRecord++;
-                elseif($recordCount["private"] == 0)
-                    $countPublicRecord++;
-            }
-        }
         $canAdd    = in_array("add",$permissions);
         $canEdit   = in_array("edit",$permissions);
         $canDelete = in_array("delete",$permissions);
+
+        $countPrivateRecord = 0;
+        $countPublicRecord  = 0;
+        $countNotProcessed  = 0;
+        if(!empty($records)){
+            foreach ($records as $recordCount){
+                if($recordCount["private"] == 1 && $recordCount["status"] == "processed")
+                    $countPrivateRecord++;
+
+                elseif($recordCount["private"] == 0 && $recordCount["status"] == "processed")
+                    $countPublicRecord++;
+
+                elseif ($recordCount["status"] != "processed" && $canEdit == true) {
+                    if ($recordCount["status"] == "processing") {
+                        $recordList["processing"][] = $recordCount;
+                    }
+                    elseif ($recordCount["status"] == "scheduled") {
+                        $recordList["scheduled"][] = $recordCount;
+                    }
+                    else{
+                        $recordList["error"][] = $recordCount;
+                    }
+                    $countNotProcessed++;
+                }
+            }
+        }
 
         $edit = $sys->input("edit",SET_STRING);
 

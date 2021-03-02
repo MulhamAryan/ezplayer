@@ -4,7 +4,7 @@
         global $sys;
         global $auth;
         if($type == "course"){
-            $permission = $sys->getEnrollment(ENR_ACCESS_TYPE,$id);
+            $permission = $auth->getEnrollment(ENR_ACCESS_TYPE,$id);
             if(in_array("edit",$permission)) {
                 $courseSql = array(
                     "table" => Databases::courses,

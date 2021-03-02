@@ -22,6 +22,8 @@
         const fileCourse = "course.php";
         const fileRecord = "record.php";
         const fileSignup = "signup.php";
+        const folderAdmin = "admin";
+        const fileUserConf = System::folderAdmin . "/users/index.php";
 
         public function __construct(){
             parent::__construct();
@@ -33,7 +35,7 @@
             }
             else{
                 $input = array_merge($_GET,$_POST);
-                $inputType = (isset($input[$param])) ? $input[$param] : "";
+                $inputType = (isset($input[$param])) ? $input[$param] : false;
                 $inputType = addslashes($inputType);
             }
             if(isset($inputType)) {
@@ -78,15 +80,21 @@
         }
 
         public function getUserCourses(array $array = null){
+            if(isset($array["is_guest"]) == true){
+                $courses = $this->getTable(Databases::courses);
+                $query = "SELECT {$courses}.id as id, {$courses}.course_code as course_code, {$courses}.course_name as course_name FROM {$courses} where id = '{$array["id"]}' and token = '{$array["token"]}'";
+            }
+            else {
+                if (empty($array["user_id"]))
+                    $array["user_id"] = $_SESSION["user_id"];
 
-            if(empty($array["user_id"]))
-                $array["user_id"] = $_SESSION["user_id"];
-
-            $enrollment = $this->getTable(Databases::enrollment);
-            $courses    = $this->getTable(Databases::courses);
-            $query = "SELECT {$courses}.id as id, {$courses}.course_code as course_code, {$courses}.course_name as course_name FROM {$enrollment} inner JOIN {$courses} ON {$courses}.id={$enrollment}.courseid where {$enrollment}.userid = {$array["user_id"]}";
-            $result = $this->sql($query,"fetch");
+                $enrollment = $this->getTable(Databases::enrollment);
+                $courses = $this->getTable(Databases::courses);
+                $query = "SELECT {$courses}.id as id, {$courses}.course_code as course_code, {$courses}.course_name as course_name FROM {$enrollment} inner JOIN {$courses} ON {$courses}.id={$enrollment}.courseid where {$enrollment}.userid = {$array["user_id"]}";
+            }
+            $result = $this->sql($query, "fetch");
             return $result;
+
         }
 
         public function getUserInfo(string $param, int $userid){
@@ -118,68 +126,6 @@
             }
             else{
                 return $userid . " : UNKNOWN USER ID!";
-            }
-        }
-
-        public function getEnrollment($function,int $courseid,int $userid = null){
-
-            /*
-             * Role id number
-               1- Student
-               2- Assistant
-               3- Teacher
-            */
-
-            $userid = (empty($userid) ? $_SESSION["user_id"] : $userid);
-            $enrInfoArray = array(
-                "table" => Databases::enrollment,
-                "fields" => array(
-                    "courseid" => $courseid,
-                    "userid" => $userid
-                )
-            );
-            $enrollment = $this->select($enrInfoArray);
-
-            $userInfoArray = array(
-                "table" => Databases::users,
-                "fields" => array(
-                    "id" => $userid
-                )
-            );
-            $userinfo = $this->select($userInfoArray);
-            include_once "functions/enrollment.php";
-
-            switch ($function){
-                case ENR_ACCESS_TYPE:
-                    return accessType($enrollment,$userinfo);
-                    break;
-
-                case ENR_CAN_ACCESS:
-                    return canAccess($enrollment,$userinfo);
-                    break;
-
-                default:
-                    return $this->errorException("Unknown function name '{$function}'");
-                    break;
-            }
-        }
-
-        public function instance($function, int $instanceid)
-        {
-            //TODO Create anonyme access (For course and record)
-            require_once "functions/instance_existence.php";
-            switch ($function){
-                case CHK_COURSE:
-                    return courseExists($instanceid);
-                    break;
-
-                case CHK_RECORD:
-                    return recordExists($instanceid);
-                    break;
-
-                default:
-                    return $this->errorException("Unknown function name '{$function}'");
-                    break;
             }
         }
 
@@ -289,5 +235,18 @@
                 $ipAddress = $_SERVER['REMOTE_ADDR'];
             }
             return $ipAddress;
+        }
+
+        public function sendMail(array $mailInfo){
+            $from    = $this->config->mail;
+            $to      = $mailInfo["email"];
+            $subject = $mailInfo["subject"];
+            $message = $mailInfo["body"];
+
+            $headers  = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= "From: <{$from}>" . "\r\n";
+
+            mail($to,$subject,$message,$headers);
         }
     }

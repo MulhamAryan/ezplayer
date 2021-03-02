@@ -28,10 +28,6 @@
     $tmp  = new Templates();
     $ctrl = new Controller();
 
-    //$up = new Upload(queues_submit_uploads);
-    /*$file = array( "cam" => array("name" => "test"));
-    var_dump($up->uploadFile($file,1));
-*/
     if ($auth->isLogged()){
         $ctrl->load("index");
     }

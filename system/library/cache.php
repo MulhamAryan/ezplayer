@@ -8,11 +8,13 @@
          */
         private $config;
         private $cacheEngine;
-        const courseDir = "courses_cache";
-        const userDir   = "users_cache";
+        const courseDir         = "courses_cache";
+        const userDir           = "users_cache";
+        const guestDir          = "guests";
+        const guestEnrollments  = "enrollments.json";
         const user_courses_menu = "user_courses_menu.json";
-        const records_list = "records_list.json";
-        const courseInfo   = "course.json";
+        const records_list      = "records_list.json";
+        const courseInfo        = "course.json";
 
         public function __construct()
         {

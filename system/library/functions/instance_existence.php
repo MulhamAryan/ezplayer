@@ -1,9 +1,8 @@
 <?php
 
     function courseExists($instanceid){
-        global $config;
         global $sys;
-        if($config->cache["enabled"] == true){
+        if($sys->config->cache["enabled"] == true){
             $courseFile = Cache::courseDir . "/" . $instanceid . "/" . Cache::courseInfo;
             $getCourse = $sys->getCache($courseFile);
         }
@@ -15,18 +14,18 @@
                 )
             );
             $getCourse = $sys->select($courseInfoArray);
-            if ($getCourse == false) {
-                $sys->redirect("index.php?error=course_not_found&id={$instanceid}");
-            }
+        }
+        if ($getCourse == false) {
+            $sys->redirect("index.php?error=course_not_found&id={$instanceid}");
         }
         return $getCourse;
     }
 
     function recordExists($instanceid){
-        global $config;
         global $sys;
-
-        $getRecord = $sys->sql("SELECT *, record.id as record_id FROM {$config->database["prefix"]}" . Databases::records . " as record INNER JOIN {$config->database["prefix"]}" . Databases::courses . " as course where record.id = {$instanceid} and course.id = record.course_id", "select");
+        $recordsTable = $sys->getTable(Databases::records);
+        $coursesTable = $sys->getTable(Databases::courses);
+        $getRecord = $sys->sql("SELECT *, record.id as record_id FROM {$recordsTable} as record INNER JOIN {$coursesTable} as course where record.id = {$instanceid} and course.id = record.course_id", "select");
         if ($getRecord["status"] == "processed") {
             return $getRecord;
         } else {

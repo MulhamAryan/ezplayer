@@ -1,6 +1,7 @@
-<?php if(!empty($userCoursesCache)): ?>
     <div id="homeLeftSideBar" class="col-10 col-md-3 col-xl-2 bd-sidebar shadow">
-        <nav class="bd-links">
+        <?php if($this->auth->getInfo(LOGIN_PERMISSIONS) == 1) include "admin_menu.php";?>
+        <?php if(!empty($userCoursesCache)): ?>
+            <nav class="bd-links">
             <div class="list-group p-3 border-bottom d-md-none d-xl-none">
                 <form method="post" action="search.php?do=search">
                     <div class="input-group search">
@@ -23,5 +24,5 @@
                 <?php } ?>
             </div>
         </nav>
+        <?php endif; ?>
     </div>
-<?php endif; ?>

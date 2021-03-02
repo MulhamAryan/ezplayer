@@ -1,6 +1,7 @@
 <?php
     ob_start();
     session_start();
+
     unset($config);
     global $config;
     $config = new stdClass();
@@ -17,6 +18,7 @@
         "library"     => $config->systemDir . "/library",
         "languages"   => $config->systemDir . "/languages",
         "templates"   => $config->maindir . "/templates",
+        "admin"       => $config->maindir . "/admin",
         "repository"  => "/Bibliothèque/WebServer/Documents/newezplayer/repository/"
     );
 

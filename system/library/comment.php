@@ -1,8 +1,9 @@
 <?php
     function checkAccess(int $recordid){
         global $sys;
-        $recordInfo  = $sys->instance(CHK_RECORD,$recordid);
-        $canAccess   = $sys->getEnrollment(ENR_CAN_ACCESS,$recordInfo["course_id"]);
+        global $auth;
+        $recordInfo  = $auth->instance(CHK_RECORD,$recordid);
+        $canAccess   = $auth->getEnrollment(ENR_CAN_ACCESS,$recordInfo["course_id"]);
         return $canAccess;
     }
 

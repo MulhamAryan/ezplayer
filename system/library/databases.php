@@ -30,7 +30,7 @@
         const user_bookmarks          = "user_bookmarks";
         const user_tokens_list        = "user_tokens_list";
 
-        protected $config;
+        public $config;
         protected $DBDriver;
         protected $tmp;
 

@@ -16,13 +16,13 @@
                 $modalContent .= '<div class="modal-body form-horizontal">';
 
                 $modalContent .= '<div class="form-group"><div class="row">';
-                $modalContent .= '<label class="col-sm-3 control-label"><b>' . $this->lang["course"] . '</b></label>';
+                $modalContent .= '<label class="col-sm-3 control-label"><b>' . $this->lang["course"]["name"] . '</b></label>';
                 $modalContent .= '<div class="col-sm-9 border-left"><p class="form-control-static"><b>' . $courseInfo["course_code"] . ' - ' . $courseInfo["course_name"] . '</b></p></div>';
                 $modalContent .= '</div></div>';
 
                 $modalContent .= '<div class="form-group mt-4"><div class="row">';
                 $modalContent .= '<label class="col-sm-3 control-label"><b>' . $this->lang["title"] . '</b><p class="form-text text-muted">' . $this->lang["max_carac70"] . '</p></label>';
-                $modalContent .= '<div class="col-sm-9 border-left"><input id="title" name="title" class="form-control" type="text" maxlength="70" not_required /></div>';
+                $modalContent .= '<div class="col-sm-9 border-left"><input id="title" name="title" class="form-control" type="text" maxlength="70" required /></div>';
                 $modalContent .= '</div></div>';
 
                 $modalContent .= '<div class="form-group mt-4"><div class="row">';
@@ -49,17 +49,17 @@
 
                 $modalContent .= '<div class="form-group mt-4" id="submit_cam"><div class="row">';
                 $modalContent .= '<label class="col-sm-3 control-label"><b>' . $this->lang["video"] . ' ' . $this->lang["cam"] . '</b><p class="form-text text-muted">' . $this->lang["max_2go"] . '</p></label>';
-                $modalContent .= '<div class="col-sm-9 border-left"><input id="file_cam" type="file" name="fileupload[cam][]" accept="video/mp4,video/x-m4v,video/*" not_required /></div>';
+                $modalContent .= '<div class="col-sm-9 border-left"><input id="file_cam" type="file" name="fileupload[cam][]" accept="video/mp4,video/x-m4v,video/*" required /></div>';
                 $modalContent .= '</div></div>';
 
                 $modalContent .= '<div class="form-group mt-4" id="submit_slide" style="display: none;"><div class="row">';
                 $modalContent .= '<label class="col-sm-3 control-label"><b>' . $this->lang["video"] . ' ' . $this->lang["slide"] . '</b><p class="form-text text-muted">' . $this->lang["max_2go"] . '</p></label>';
-                $modalContent .= '<div class="col-sm-9 border-left"><input id="file_slide" type="file" name="fileupload[slide][]" accept="video/mp4,video/x-m4v,video/*" disabled not_required /></div>';
+                $modalContent .= '<div class="col-sm-9 border-left"><input id="file_slide" type="file" name="fileupload[slide][]" accept="video/mp4,video/x-m4v,video/*" disabled required /></div>';
                 $modalContent .= '</div></div>';
 
                 $modalContent .= '<div class="form-group mt-4" id="submit_audio" style="display: none;"><div class="row">';
                 $modalContent .= '<label class="col-sm-3 control-label"><b>' . $this->lang["audio_file"] . '</b><p class="form-text text-muted">' . $this->lang["max_2go"] . '</p></label>';
-                $modalContent .= '<div class="col-sm-9 border-left"><input id="file_audio" type="file" name="fileupload[audio][]" accept="audio/*" disabled not_required /></div>';
+                $modalContent .= '<div class="col-sm-9 border-left"><input id="file_audio" type="file" name="fileupload[audio][]" accept="audio/*" disabled required /></div>';
                 $modalContent .= '</div></div>';
                 $modalContent .= '<div id="answer"></div>';
 

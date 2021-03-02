@@ -15,7 +15,7 @@
     $confirmpass = $sys->input("confirmpass",SET_STRING);
     $captcha     = $sys->input("captcha",SET_STRING);
     $captcha_ses = (isset($_SESSION["captcha_code"]) ? $_SESSION["captcha_code"] : "");
-    manualEnrollment(3);
+
     if($type == "course"){
         $sqlArray = array(
             "table" => Databases::courses,
@@ -94,9 +94,10 @@
                     "origin" => "external",
                     "ip" => $sys->getIp(),
                     "course_id" => $checkSignupType["id"],
-                    "course_anon_access" => $checkSignupType["anon_access"]
+                    "course_anon_access" => $checkSignupType["anon_access"],
+                    "token" => $token
                 );
-                $userInfo = $auth->createUser($sqlArray);
+                manualEnrollment(3,$sqlArray);
             }
         }
         else{

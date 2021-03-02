@@ -16,8 +16,8 @@
     if(!empty($coursesList[0])) {
         foreach ($coursesList as $courseid) {
             $course = $sys->input($courseid, SET_INT, true);
-            $courseInfo = $sys->instance(CHK_COURSE, $course);
-            $accessType = $sys->getEnrollment(ENR_ACCESS_TYPE,$course);
+            $courseInfo = $auth->instance(CHK_COURSE, $course);
+            $accessType = $auth->getEnrollment(ENR_ACCESS_TYPE,$course);
 
             if ($courseInfo && in_array("edit",$accessType)) {
                 $recordInfo = $sys->select(["table" => Databases::records, "fields" => ["id" => $recordID]]);

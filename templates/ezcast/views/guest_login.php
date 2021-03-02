@@ -14,10 +14,10 @@
                 <form method="post" action="">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-address-card pt-2 pb-2"></i></span></div>
-                        <input type="text" name="fullname" class="form-control pt-2 pb-2" placeholder="<?=$this->lang["full_name"];?>" aria-label="fullname" aria-describedby="basic-addon1">
+                        <input type="text" name="fullname" class="form-control pt-2 pb-2" placeholder="<?=$this->lang["full_name"];?>" aria-label="fullname" aria-describedby="basic-addon1" required>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="captcha" class="form-control pt-2 pb-2" placeholder="<?=$this->lang["write_captcha"];?>" aria-label="captcha" aria-describedby="basic-addon1">
+                        <input type="text" name="captcha" class="form-control pt-2 pb-2" placeholder="<?=$this->lang["write_captcha"];?>" aria-label="captcha" aria-describedby="basic-addon1" required>
                     </div>
                     <div class="input-group mb-3 text-center">
                         <img src="public/captcha.php?time=<?=time();?>" class="text-center m-auto">

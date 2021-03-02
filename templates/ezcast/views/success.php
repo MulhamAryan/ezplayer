@@ -1,1 +1,1 @@
-<?php $msg = "<div class=\"alert success\" role=\"alert\">{$message}</div>"; ?>
+<?php $msg = "<div class=\"alert alert-success\" role=\"alert\">{$message}</div>"; ?>

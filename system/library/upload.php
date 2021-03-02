@@ -8,6 +8,11 @@
         private $userID;
         private $courseCode;
         private $courseInfo;
+        const initUpload   = "initupload";
+        const processed    = "processed";
+        const processing   = "processing";
+        const scheduled    = "scheduled";
+        const failMoveFile = "failmovefile";
 
         function __construct($destination,array $courseInfo,int $userID)
         {
@@ -28,12 +33,12 @@
 
 
             $createRecDir  = $this->createRecordDir();
-            $info["token"] = $this->setToken();
+            $info["token"] = $this->generateToken();
             $info["addtime"] = time();
             $info["user_id"] = $this->userID;
             $info["course_id"] = $this->courseID;
             $info["album"] = $this->courseID;
-            $info["status"] = "initupload";
+            $info["status"] = Upload::initUpload;
             $info["downloadable"] = $this->courseInfo["downloadable"];
             $info["filepath"] = "filepath"; //TODO Filepath sys
 
@@ -119,8 +124,18 @@
                         return $msg;
                         break;
                     } else {
-                        $filename = $fileinfokey . ".mov";
-                        move_uploaded_file($file["tmp_name"][$fileinfokey][0], $this->getUploadDir() . "/" . $filename);
+                        //$filename = $fileinfokey . ".mov";
+                        $filename = $file["name"][$fileinfokey][0];
+                        $fileupload = move_uploaded_file($file["tmp_name"][$fileinfokey][0], $this->getUploadDir() . "/" . $filename);
+                        if($fileupload == false){
+                            $msg = array(
+                                "error" => true,
+                                "msg" => $this->lang["incorrect_file_format"] . " : " . $file["name"][$fileinfokey][0]
+                            );
+                            $this->finishUpload(Upload::failMoveFile);
+                            return $msg;
+                            break;
+                        }
                     }
                 }
             }
@@ -129,7 +144,7 @@
                     "error" => false,
                     "msg" => $this->lang["file_uploaded_process"]
                 );
-                $this->finishUpload();
+                $this->finishUpload(Upload::scheduled);
                 return $msg;
             }
             else{
@@ -139,15 +154,6 @@
                 );
                 return $msg;
             }
-        }
-
-        public function setToken(){
-            $token = "";
-            for ($idx = 0; $idx < 8; $idx++) {
-                $token.= chr(rand(65, 90));
-            }
-
-            return $token;
         }
 
         private function setMetadata(array $info)
@@ -184,10 +190,10 @@
 
         }
 
-        private function finishUpload()
+        private function finishUpload($status)
         {
             //Update status
-            $this->update(array("table"=>Databases::records, "fields" => "status = 'processing' where id = '{$this->getUploadID()}'"));
+            $this->update(array("table"=>Databases::records, "fields" => "status = '{$status}' where id = '{$this->getUploadID()}'"));
             //Update cache
             $this->updateCourseCache($this->courseID);
         }

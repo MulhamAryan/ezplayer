@@ -32,11 +32,11 @@
                     else{
                         //$this->syncEnrollment($username,"ldap");
                     }
-                    return true;
+                    return "access_granted";
                     break;
                 }
                 else{
-                    return false;
+                    return "access_not_granted";
                 }
             }
         }

@@ -39,7 +39,7 @@
     echo '<input type="hidden" value="' . $recordID . '" name="recordid">';
     echo '<input type="hidden" value="' . $type . '" name="cmdtype">';
     foreach ($course_list as $course){
-        $accessType = $sys->getEnrollment(ENR_ACCESS_TYPE,$course["id"]);
+        $accessType = $auth->getEnrollment(ENR_ACCESS_TYPE,$course["id"]);
         if(in_array("edit",$accessType)) {
             echo '<span href="#" class="list-group-item list-group-item-action"><label>';
             echo '<input type="' . ($type == "copy" ? 'checkbox' : 'radio') . '" name="courseid[]" value="' . $course["id"] . '" class="custom-control-input"> ';

@@ -2,9 +2,9 @@
     global $sys;
     global $auth;
     global $tmp;
-    global $courseInfo;
+    global $instance;
 
-    if($courseInfo != false) {
+    if($instance != false) {
         $requireElements = array("requireLeftMenu" => false, "requireBody" => true);
         $tmp->getHeader($requireElements);
         include $tmp->load("signup.php");

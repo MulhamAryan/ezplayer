@@ -12,9 +12,9 @@
     $auth->requireLogin();
 
     $recordID   = $sys->input("id",SET_INT);
-    $recordInfo = $sys->instance(CHK_RECORD,$recordID);
+    $recordInfo = $auth->instance(CHK_RECORD,$recordID);
 
-    $canAccess   = $sys->getEnrollment(ENR_CAN_ACCESS,$recordInfo["course_id"]);
-    $permissions = $sys->getEnrollment(ENR_ACCESS_TYPE,$recordInfo["course_id"]);
+    $canAccess   = $auth->getEnrollment(ENR_CAN_ACCESS,$recordInfo["course_id"]);
+    $permissions = $auth->getEnrollment(ENR_ACCESS_TYPE,$recordInfo["course_id"]);
 
     $ctrl->load("record");
