@@ -26,7 +26,7 @@
         public function __construct()
         {
             parent::__construct();
-            $this->config->repository = "/var/www/html/projects/"; //TODO NEED TO BE REMOVED TEMPORARY VAR DIR
+            //$this->config->repository = "/var/www/html/projects/"; //TODO NEED TO BE REMOVED TEMPORARY VAR DIR
 
             $this->recordType = $this->input("recordType",SET_STRING);
             $this->quality    = $this->input("quality",SET_STRING);
@@ -88,23 +88,32 @@
             $this->contentType(array("type" => "m3u8"));
             $this->m3uHash = $this->input("m3uhash",SET_STRING);
             $randomValue = $this->quality . "_" . $this->generalKey;
-            if($this->validateHash($this->m3uHash,$randomValue) != true){
+            /*if($this->validateHash($this->m3uHash,$randomValue) != true){
                 exit();
-            }
+            }*/
 
             $this->m3u8Hash = $this->input("m3u8hash",SET_STRING);
-            $this->playerFile = "{$this->config->repository}/{$this->dir}/{$this->recordType}/{$this->quality}/{$this->m3u8Name}";
+            $this->playerFile = "{$this->config->repository}/{$this->dir}/{$this->quality}_{$this->recordType}/{$this->m3u8Name}";
 
             $_SESSION["tsrandomkey"] = rand(10000,99999);
             $RandomHashFile = $_SESSION["tsrandomkey"] . "_" . $this->quality . "_" . $this->generalKey;
             $fileHashId = $this->getSecHash($RandomHashFile);
 
             $playerFileContent = file_get_contents($this->playerFile);
-            $playerFileContent = str_replace("#EXTINF:2.400000,","#EXTINF:2.000000,",$playerFileContent);
             $playerFileContent = str_replace($this->tsFileName,$this->config->streamurl . "ts.php?recordid={$this->recordid}&recordType={$this->recordType}&quality={$this->quality}&dir={$this->dir}&m3u8hash={$fileHashId}&file=",$playerFileContent);
             $playerFileContent = str_replace(".ts","",$playerFileContent);
+            $playerFileContent = explode("\n", $playerFileContent);
+            //$playerFileContent = str_replace("#EXTINF:10.00000,","#EXTINF:10.000000,",$playerFileContent);
 
-            return $playerFileContent;
+            foreach ($playerFileContent as $key => $string){
+                //if(strpos($string,'EXT-X-BYTERANGE') === false){ //TODO PATCH
+                    //$string = str_replace($this->tsFileName,$this->config->streamurl . "ts.php?recordid={$this->recordid}&recordType={$this->recordType}&quality={$this->quality}&dir={$this->dir}&m3u8hash={$fileHashId}&file=",$string);
+                    //$string = str_replace(".ts","",$string);
+                    $newString[] = $string;
+                //}
+            }
+            $newString = implode($newString,"\n");
+            return $newString;
         }
 
         public function ts(){
@@ -118,7 +127,7 @@
             $tsFileName = $this->input("file",SET_STRING);
 
             $this->contentType(array("file" => $tsFileName, "type" => "ts"));
-            $tsFileDir  = "{$this->recordDir}/{$this->recordType}/{$this->quality}/{$this->tsFileName}{$tsFileName}.ts";
+            $tsFileDir  = "{$this->recordDir}/{$this->quality}_{$this->recordType}/{$this->tsFileName}{$tsFileName}.ts";
 
             if(file_exists($tsFileDir)){
                 return file_get_contents($tsFileDir);

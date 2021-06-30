@@ -114,10 +114,22 @@
         "configurations" => "Configurations",
         "regenerate_cache" => "Régénérer le cache des cours",
         "saved" => "Operation terminée avec succès",
-        "confirm_delete" => "Etes-vous sûr(e) de vouloir supprimer l`utilisateur ?",
+        "confirm_delete" => "Etes-vous sûr(e) de vouloir executer cette tache?",
         "monitoring" => "Monitoring",
         "jobs_list" => "Liste des jobs",
-        "renderers_list" => "Liste des renderers"
+        "renderers_list" => "Liste des renderers",
+        "add_renderer" => "Ajouter un serveur",
+        "edit_renderer" => "Modifier les paramètres du serveur",
+        "no_renderer" => "Aucun serveur rendering",
+        "server_name" => "Nom du serveur",
+        "renderer_url" => "URL/IP Serveur",
+        "git_url" => "URL Repertoire GIT",
+        "render_username" => "Utilisateur serveur",
+        "rsa_key" => "Clé RSA",
+        "server_path" => "Racine serveur",
+        "start_installation" => "Commencer l'installation",
+        "unavailable_server" => "Impossible de se connecter au serveur, veuillez vérifier l'URL / l'adresse IP",
+        "server_auth_fail" => "Le nom d'utilisateur ou la clé publique n'est pas correct"
     );
     $lang["course"] = array(
         "name" => "Cours",
@@ -143,7 +155,27 @@
     );
 
     $lang["records"] = array(
-        "processing_status" => "États des traitements"
+        "processing_status" => "États des traitements",
+        "edit" => "Modifier l'enregistrement",
+        "title" => "Nom de l'enregistrement",
+        "description" => "Description",
+        "video_editor" => "Editeur video",
+        "error_save" => "Une erreur est survenue modification non publiée"
+    );
+    $lang["renderer"] = array(
+        "update_fail" => "Impossible de mettre à jour le statut!",
+        "server_not_found" => "Le serveur n existe pas !"
+    );
+
+    $lang["auditorium"] = array(
+        "auditorium_name" => "Nom de l'auditoire",
+        "machine_username" => "Nom utilisateur de la machine",
+        "auditorium_ip" => "IP auditoire",
+        "installation_dir" => "Répertoire de base",
+        "apache_dir" => "Répertoire de Apache",
+        "record_dir" => "Répertoire de Stockage",
+        "api_key" => "Clé Secrète API auditoire",
+        "offline_installation" => "Installation offline ?"
     );
 
     $lang["internal"] = "Interne";
@@ -152,3 +184,11 @@
     $lang["search"] = "Chercher";
     $lang["options"] = "Options";
     $lang["since2"] = "Depuis";
+    $lang["public"] = "Publique";
+    $lang["personal"] = "Personnelle";
+    $lang["add"] = "Ajouter";
+
+    $lang["api"] = array(
+        "unauthorized_access" => "",
+        "unauthorized_access_option" => ""
+    );

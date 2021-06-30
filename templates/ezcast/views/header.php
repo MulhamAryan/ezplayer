@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>PODCAST</title>
     <base href="<?=$this->config->url;?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?=$this->config->template["css"];?>/bootstrap/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="<?=$this->config->template["cssdir"];?>/fontawesome/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="<?=$this->config->template["css"];?>/app.css" crossorigin="anonymous">

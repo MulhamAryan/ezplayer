@@ -4,6 +4,7 @@
         global $sys;
         if($sys->config->cache["enabled"] == true){
             $courseFile = Cache::courseDir . "/" . $instanceid . "/" . Cache::courseInfo;
+            //var_dump($courseFile);
             $getCourse = $sys->getCache($courseFile);
         }
         else {
@@ -16,7 +17,8 @@
             $getCourse = $sys->select($courseInfoArray);
         }
         if ($getCourse == false) {
-            $sys->redirect("index.php?error=course_not_found&id={$instanceid}");
+            //$sys->redirect("index.php?error=course_not_found&id={$instanceid}");
+            $getCourse = "Course Not Found !";
         }
         return $getCourse;
     }
@@ -31,4 +33,11 @@
         } else {
             (new System)->redirect("index.php?error=record_not_found&id={$instanceid}");
         }
+    }
+
+    function checkAccess(int $recordid){
+        global $auth;
+        $recordInfo  = $auth->instance(CHK_RECORD,$recordid);
+        $canAccess   = $auth->getEnrollment(ENR_CAN_ACCESS,$recordInfo["course_id"]);
+        return $canAccess;
     }

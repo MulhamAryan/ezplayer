@@ -130,7 +130,7 @@
 
         public function getInfo(string $param,int $userid = null){
             if($this->isLogged()) {
-                if ($userid == 0)
+                if ($userid == 0 || empty($userid))
                     $userid = $_SESSION["user_id"];
 
                 switch ($param) {
@@ -179,7 +179,7 @@
         }
 
         public function getSessionID(){
-            return $_SESSION["session_id"];
+            return isset($_SESSION["session_id"]) ? $_SESSION["session_id"] : "";
         }
 
         public function sessionDestroy(){
@@ -318,6 +318,10 @@
 
                 case CHK_RECORD:
                     return recordExists($instanceid);
+                    break;
+
+                case CHK_RECORD_ACCESS:
+                    return checkAccess($instanceid);
                     break;
 
                 default:

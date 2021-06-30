@@ -1,7 +1,7 @@
 <?php
 
     $config->cache = array(
-        "enabled" => true,
+        "enabled" => false,
         "engine"  => "ezcastengine",
         "dir"     => "/var/www/ezcastcache/",
         "expire"  => 604800 //One Week ??

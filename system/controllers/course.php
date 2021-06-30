@@ -13,12 +13,32 @@
     $requireElements = array("requireLeftMenu" => true, "requireBody" => true);
 
     $tmp->getHeader($requireElements);
-    if($canAccess == true) {
-        if($sys->checkCache(Cache::courseDir . "/{$courseID}/" . Cache::records_list) != true){
-            $sys->updateCourseCache($courseID);
-        }
 
-        $records = $sys->getCache(Cache::courseDir . "/{$courseID}/" . Cache::records_list);
+    if($canAccess == true) {
+        if($this->config->cache["enabled"] == true){
+            if($sys->checkCache(Cache::courseDir . "/{$courseID}/" . Cache::records_list) != true){
+                $sys->updateCourseCache($courseID);
+            }
+
+            $records = $sys->getCache(Cache::courseDir . "/{$courseID}/" . Cache::records_list);
+        }
+        else{
+            $recordsInfoArray = array(
+                "table" => Databases::records,
+                "fields" => array(
+                    "course_id" => $courseID
+                ),
+                "keyword" => "order by id desc"
+            );
+
+            $courseInfoArray = array(
+                "table" => Databases::courses,
+                "fields" => array(
+                    "id" => $courseID
+                )
+            );
+            $records = $sys->fetch($recordsInfoArray);
+        }
         $canAdd    = in_array("add",$permissions);
         $canEdit   = in_array("edit",$permissions);
         $canDelete = in_array("delete",$permissions);
@@ -56,6 +76,15 @@
         if($edit == "") {
             include $tmp->load("course/home.php");
         }
+        elseif ($edit == "upload" && $canAdd == true){
+            $sessionid = $sys->input("sessionid",SET_STRING);
+            if($sessionid == $auth->getSessionID()) {
+                include $tmp->load("course/upload_content.php");
+            }
+            else{
+                $sys->redirect($this->url(array("file" => System::fileCourse, "parameters" => array("id" => $courseID))));
+            }
+        }
         elseif ($edit == "access" && $canEdit == true) {
             $sessionid = $sys->input("sessionid",SET_STRING);
             if($sessionid == $auth->getSessionID()) {
@@ -67,7 +96,17 @@
                     );
                     if(updateCourseAccess($modifications) == true){
                         $saved = true;
-                        $courseInfo = $sys->getCache(Cache::courseDir . "/{$courseID}/" . Cache::courseInfo);
+                        if($this->config->cache["enabled"] == true)
+                            $courseInfo = $sys->getCache(Cache::courseDir . "/{$courseID}/" . Cache::courseInfo);
+                        else {
+                            $courseInfoArray = array(
+                                "table" => Databases::courses,
+                                "fields" => array(
+                                    "id" => $courseID
+                                )
+                            );
+                            $courseInfo = $sys->select($courseInfoArray);
+                        }
                     }
                 }
                 include $tmp->load("course/editaccess.php");

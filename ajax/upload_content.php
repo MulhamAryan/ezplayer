@@ -1,4 +1,5 @@
 <?php
+
     include "../config.php";
     require_once $config->directory["library"] . "/upload.php";
 
@@ -7,12 +8,15 @@
     $log  = new Log();
 
     $auth->requireLogin();
-    $courseID = $sys->input("courseid",SET_INT);
-    $courseInfo  = $auth->instance(CHK_COURSE,$courseID);
+    $courseID   = $sys->input("courseid",SET_INT);
+
+    $courseInfo = $auth->instance(CHK_COURSE,$courseID);
+
+
     if($courseInfo != false) {
         $permissions = $auth->getEnrollment(ENR_ACCESS_TYPE, $courseID);
 
-        if (in_array("add", $permissions) == true && !empty($_FILES) && isset($_FILES)) {
+        if (in_array("add", $permissions) == true) {
             $intro        = $sys->input("intro",SET_STRING);
             $add_title    = $sys->input("add_title",SET_STRING);
             $credits      = $sys->input("credits",SET_STRING);

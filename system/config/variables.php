@@ -1,5 +1,5 @@
 <?php
-    define("repository",repository);
+    /*define("repository",repository);
     define("queues_recorder_uploads",queues_recorder_uploads);
     define("queues_recorder_uploads_ok",queues_recorder_uploads_ok);
     define("queues_recorder_uploads_failed",queues_recorder_uploads_failed);
@@ -8,9 +8,9 @@
     define("queues_submit_uploads_failed",queues_submit_uploads_failed);
     define("queues_rendering",queues_rendering);
     define("queues_rendering_uploading",queues_rendering_uploading);
-    define("queues_rendering_processed",queues_rendering_processed);
+    define("queues_rendering_processed",queues_rendering_processed);*/
 
-    $config->debug = true;
+    $config->debug = false;
     if($config->debug == true){
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
@@ -18,7 +18,7 @@
     }
     $config->url = "https://ezcasttest.ulb.ac.be/newezplayer/";
     $config->mail = "noreply@ezcasttest.ulb.ac.be";
-    $config->repository = "/var/www/repository/";
+    $config->repository = "/var/lib/ezcast/repository/";
     $config->activeTemplate = "ezcast";
     $config->template = array(
         "css"    => $config->mainUrl . "/public/css.php?file=",
@@ -34,9 +34,9 @@
         "nl" => "Nederlands"
     );
     $config->randonKey = "f4qw87g6h89ertnmuytre";
-    $config->main_upload_dir = "/var/www/ezcast/";
+    $config->main_upload_dir = "/var/lib/ezcast/";
 
-    $config->uploadDir = array(
+    /*$config->uploadDir = array(
         repository                     => $config->main_upload_dir . "/repository/",
         queues_recorder_uploads        => $config->main_upload_dir . "/queues/recorder_uploads",
         queues_recorder_uploads_ok     => $config->main_upload_dir . "/queues/recorder_uploads_ok",
@@ -49,10 +49,14 @@
         queues_rendering               => $config->main_upload_dir . "/queues/rendering",
         queues_rendering_uploading     => $config->main_upload_dir . "/queues/rendering/uploading",
         queues_rendering_processed     => $config->main_upload_dir . "/queues/rendering/processed",
-    );
+    );*/
 
     $config->date_format = "Y_m_d_H\hi";
     $config->qualities = array("high","low");
     $config->defaultQuality = $config->qualities[1];
     $config->recorders = array("new" => array("camrecord","sliderecord"),"old" => array("cam","slide"));
     $config->streamurl = $config->url . "/player/";
+
+    $config->cli = array(
+        "rsync" => "/usr/bin/rsync"
+    );

@@ -6,6 +6,8 @@
          * @var stdClass
          */
         const admin_logs              = "admin_logs";
+        const api_tokens              = "api_tokens";
+        const auditoriums             = "auditoriums";
         const asset_infos             = "asset_infos";
         const classrooms              = "classrooms";
         const comments                = "comment";
@@ -19,6 +21,9 @@
         const logs                    = "logs";
         const messages                = "messages";
         const records                 = "records_temp";
+        const records_bookmarks       = "records_bookmarks";
+        const renderers               = "renderers";
+        const renderings              = "renderings";
         const rsync_album             = "rsync_album";
         const stats_video_infos       = "stats_video_infos";
         const stats_video_month_infos = "stats_video_month_infos";

@@ -17,8 +17,8 @@
         </div>
         <div class="float-right">
             <span id="quality" class="quality"><?=($this->config->defaultQuality == "low" ? "SD" : "HD");?></span>
-            <span id="cam"><i class="fas fa-camera"></i> <?=$this->lang["cam"];?></span>
-            <span id="slide"><i class="fas fa-file-alt"></i> <?=$this->lang["slide"];?></span>
+            <?php if(array_key_exists("cam",$recordType)) : ?><span id="cam"><i class="fas fa-camera"></i> <?=$this->lang["cam"];?></span><?php endif;?>
+            <?php if(array_key_exists("slide",$recordType)) : ?><span id="slide"><i class="fas fa-file-alt"></i> <?=$this->lang["slide"];?></span><?php endif;?>
             <span id="collapse"><i class="fas fa-expand"></i></span>
         </div>
     </div>
@@ -32,12 +32,12 @@
         mainUrl : "<?=$this->config->streamurl;?>/m3u.php",
         hashid  : "<?=$videoHashId;?>",
         id      : <?=$recordInfo["record_id"]?>,
-        type    : "camrecord", //TODO Make it compatible with old courses
-        folder  : "2020_11_13_15h52_EDUC-E-520", //TODO Create directory references system
+        type    : "cam", //TODO Make it compatible with old courses
+        folder  : "<?=$recordInfo["filepath"]?>", //TODO Create directory references system
         quality : "<?=$this->config->defaultQuality;?>",
         live    : false, //TODO FOR future release (Streaming) current only false
         startPosition : 0,
-        startLevel: <?=($this->config->defaultQuality == "low" ? 1:0);?>
+        startLevel: <?=($this->config->defaultQuality == "low" ? 1 : 0);?>
     };
 </script>
 

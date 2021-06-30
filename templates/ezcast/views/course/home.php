@@ -1,6 +1,7 @@
 <?php
     function pending_records($recordList){
         global $lang, $tmp; ?>
+        <?php if(!empty($recordList["processing"])):?>
         <div class="card mb-2 shadow">
             <div class="card-header alert-success font-weight-bold"><?=$lang["course"]["processing"];?></div>
             <ul class="list-group list-group-flush">
@@ -16,33 +17,35 @@
                 <?php endforeach;?>
             </ul>
         </div>
-
-        <div class="card mb-2 shadow">
-            <div class="card-header alert-warning font-weight-bold"><?=$lang["course"]["scheduled"];?></div>
-            <ul class="list-group list-group-flush">
-                <?php foreach ($recordList["scheduled"] as $scheduled): ?>
-                    <li class="list-group-item">
-                        <i class="fa fa-pause-circle"></i>
-                        <?=$scheduled["title"];?>
-                    </li>
-                <?php endforeach;?>
-            </ul>
-        </div>
-
-        <div class="card shadow">
-            <div class="card-header alert-danger font-weight-bold"><?=$lang["course"]["failed"];?></div>
-            <ul class="list-group list-group-flush">
-                <?php foreach ($recordList["error"] as $errors):?>
-                    <li class="list-group-item">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <?=$errors["title"];?>
-                        <span class="float-right"><?=$lang["since2"];?> <?=$tmp->convertTime($errors["addtime"]);?></span>
-                    </li>
-                <?php endforeach;?>
-            </ul>
-        </div>
-<?php
-    }
+        <?php endif;?>
+        <?php if(!empty($recordList["scheduled"])):?>
+            <div class="card mb-2 shadow">
+                <div class="card-header alert-warning font-weight-bold"><?=$lang["course"]["scheduled"];?></div>
+                <ul class="list-group list-group-flush">
+                    <?php foreach ($recordList["scheduled"] as $scheduled): ?>
+                        <li class="list-group-item">
+                            <i class="fa fa-pause-circle"></i>
+                            <?=$scheduled["title"];?>
+                        </li>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+        <?php endif;?>
+        <?php if(!empty($recordList["error"])):?>
+            <div class="card shadow">
+                <div class="card-header alert-danger font-weight-bold"><?=$lang["course"]["failed"];?></div>
+                <ul class="list-group list-group-flush">
+                    <?php foreach ($recordList["error"] as $errors):?>
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <?=$errors["title"];?>
+                            <span class="float-right"><?=$lang["since2"];?> <?=$tmp->convertTime($errors["addtime"]);?></span>
+                        </li>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+        <?php endif;?>
+<?php }
 
     function record_list_html($records,$canAdd,$canEdit,$canDelete,$private){
         global $auth;
@@ -50,7 +53,7 @@
         foreach ($records as $record):
             if($record["private"] == $private && $record["status"] == "processed"):
                 $description = implode(' ', array_slice(explode(' ', $record["description"]), 0, 40));
-                $duration = "01:30:25";
+                $duration = gmdate("H:i:s",$record["duration"]);
                 ?>
                 <?php if($canEdit == true):?>
                 <div class="float-right btn-group-sm position-relative align-bottom mt-2 pr-2">

@@ -19,7 +19,7 @@
         "languages"   => $config->systemDir . "/languages",
         "templates"   => $config->maindir . "/templates",
         "admin"       => $config->maindir . "/admin",
-        "repository"  => "/Bibliothèque/WebServer/Documents/newezplayer/repository/"
+        "repository"  => "/var/lib/ezcast/repository/"
     );
 
     require_once $config->directory["config"] . "/variables.php";

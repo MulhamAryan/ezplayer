@@ -8,7 +8,7 @@
             try {
                 $this->pdo = new PDO("mysql:host={$host};dbname={$dbname};charset={$this->config->database["charset"]}", $dbuser, $dbpass);
                 //$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
             }
             catch (PDOException $e){
                 die($e->getMessage());
@@ -58,6 +58,8 @@
                 return $select;
             }
             else{
+                var_dump($this->pdo->errorInfo());
+                exit();
                 throw new PDOException($this->pdo->errorInfo());
             }
         }
@@ -108,7 +110,7 @@
                 return true;
             }
             else{
-                throw new PDOException("<code>{$this->pdo->errorInfo()}</code>");
+                var_dump($statement->errorInfo());
             }
         }
 

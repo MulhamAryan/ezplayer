@@ -1,5 +1,5 @@
 <?php
-
+    //1998_.-Airwo
     define("ENR_ACCESS_TYPE",'ENR_ACCESS_TYPE');
     define("ENR_CAN_ACCESS",'ENR_CAN_ACCESS');
 
@@ -9,9 +9,12 @@
     define("SET_ARRAY",'SET_ARRAY');
     define("SET_ALPHA_NUM",'SET_ALPHA_NUM');
     define("SET_PASSWORD",'SET_PASSWORD');
+    define("SET_ARRAY_WITH_KEY",'SET_ARRAY_WITH_KEY');
+    define("SET_JSON",'SET_JSON');
 
     define("CHK_COURSE",'CHK_COURSE');
     define("CHK_RECORD",'CHK_RECORD');
+    define("CHK_RECORD_ACCESS",'CHK_RECORD_ACCESS');
 
     define("USER_FULLNAME","USER_FULLNAME");
     define("USER_EMAIL","USER_EMAIL");
@@ -24,6 +27,7 @@
         const fileSignup = "signup.php";
         const folderAdmin = "admin";
         const fileUserConf = System::folderAdmin . "/users/index.php";
+        const fileRendering = System::folderAdmin . "/monitorings/renderers.php";
 
         public function __construct(){
             parent::__construct();
@@ -36,7 +40,8 @@
             else{
                 $input = array_merge($_GET,$_POST);
                 $inputType = (isset($input[$param])) ? $input[$param] : false;
-                $inputType = addslashes($inputType);
+                if($type != SET_ARRAY)
+                    $inputType = addslashes($inputType);
             }
             if(isset($inputType)) {
                 switch ($type) {
@@ -56,12 +61,21 @@
                         return (array) $inputType;
                         break;
 
+                    case SET_ARRAY_WITH_KEY:
+                        $GLOBALS["input_array"][$param] = $inputType;
+                        return array($param => $inputType);
+                        break;
+
                     case SET_ALPHA_NUM:
                         return preg_replace('/[^A-Za-z0-9\-_\/]/', '', $inputType);
                         break;
 
                     case SET_PASSWORD:
                         return $this->encrypt($inputType);
+                        break;
+
+                    case SET_JSON:
+                        return json_encode($inputType,true);
                         break;
 
                     default:
@@ -201,8 +215,8 @@
             return $ans;
         }
 
-        public function generateToken(){
-            $token = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-'),1,8);
+        public function generateToken(int $length = 8){
+            $token = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-'),1,$length);
             return $token;
         }
 
@@ -237,6 +251,22 @@
             return $ipAddress;
         }
 
+        public function setTitle(string $mytitle){
+            return $mytitle;
+        }
+
+        public function getAuthorizationHeader(string $name){
+            $auth = null;
+            $http_accept = explode(";",$_SERVER["HTTP_ACCEPT"]);
+            foreach ($http_accept as $item){
+
+                if(strpos($item,$name) !== false){
+                    preg_match("/{$name}=(.*)/", $item, $auth);
+                    break;
+                }
+            }
+            return $auth[1];
+        }
         public function sendMail(array $mailInfo){
             $from    = $this->config->mail;
             $to      = $mailInfo["email"];

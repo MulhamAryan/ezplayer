@@ -23,13 +23,16 @@
                 return $file;
             }
             else {
-                die("<pre>Template file not found <br>{$file}</pre>");
+                die($this->getError("<pre>Template file not found <br>{$file}</pre>"));
             }
         }
 
         public function getHeader(array $array = null)
         {
             $ajax = $this->input("ajax",SET_INT);
+            if($ajax == 1 && $this->getAuthorizationHeader("coursetoken") != session_id()){
+                exit();
+            }
             if($this->auth->isLogged() == true) {
                 if($this->auth->getInfo(LOGIN_IS_GUEST) == true){
                     $cacheDir = Cache::guestDir;
@@ -37,7 +40,8 @@
                 else{
                     $cacheDir = Cache::userDir;
                 }
-                $userCoursesCache = $this->getCache($cacheDir . "/{$this->auth->getInfo(LOGIN_USER_LOGIN, 0)}/" . Cache::user_courses_menu);
+
+                $userCourses = ($this->config->cache["enabled"] == true) ? $this->getCache($cacheDir . "/{$this->auth->getInfo(LOGIN_USER_LOGIN, 0)}/" . Cache::user_courses_menu) : $this->getUserCourses();
             }
             if($ajax != 1) {
                 require $this->load("header.php");

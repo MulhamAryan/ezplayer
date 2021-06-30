@@ -44,14 +44,16 @@ video.addEventListener('timeupdate',updateProgressBar);
 volumeRange.addEventListener("change",function (evt) {
     changeVolume(this.value);
 });
-
-camView.addEventListener("click",function () {
-    changeView("camrecord");
-});
-
-slideView.addEventListener("click",function () {
-    changeView("sliderecord");
-});
+if(camView) {
+    camView.addEventListener("click", function () {
+        changeView("cam");
+    });
+}
+if(slideView) {
+    slideView.addEventListener("click", function () {
+        changeView("sliderecord");
+    });
+}
 
 if(Hls.isSupported()){
     var configs = {
@@ -120,9 +122,10 @@ function initVideo(){
     const videoDuration = Math.round(video.duration);
     seek.setAttribute('max', videoDuration);
     const time = formatTime(videoDuration);
-    duration.innerText = `${time.hours}:${time.minutes}:${time.seconds}`;
-    duration.setAttribute('datetime', `${time.hours}h:${time.minutes}m ${time.seconds}s`)
-
+    if(duration) {
+        duration.innerText = `${time.hours}:${time.minutes}:${time.seconds}`;
+        duration.setAttribute('datetime', `${time.hours}h:${time.minutes}m ${time.seconds}s`);
+    }
 }
 
 function changeVolume(value){
@@ -248,7 +251,7 @@ function changeView(view){
     if(currentRecord !== view) {
         let videoCurrentTime = getVideoCurrentTime() - 2;
 
-        urlConfig["type"] = (view === "camrecord") ? "camrecord" : "sliderecord";
+        urlConfig["type"] = (view === "cam") ? "cam" : "slide";
         currentView = urlConfig["type"];
 
         videoUrl = generateVideoURL();
@@ -325,9 +328,9 @@ document.addEventListener('keydown', (event) => {
         } else if (keyName === "q") {
             changeQuality();
         } else if (keyName === "c") {
-            changeView("camrecord");
+            changeView("cam");
         } else if (keyName === "v") {
-            changeView("sliderecord");
+            changeView("slide");
         } else if (keyName === "m") {
             toggleMute();
         } else if (keyName === "ArrowUp") {

@@ -10,4 +10,5 @@
 
     $auth->requireLogin();
     $auth->isAdmin();
+    require_once $config->directory["config"] . "/admin.php";
 

@@ -22,27 +22,31 @@
             $this->config = $config;
             require_once "cacheengine/{$this->config->cache["engine"]}.php";
             $this->cacheEngine = new CacheEngine();
-            $this->cacheEngine->createCacheDir($this->config->cache["dir"]);
+            if($this->config->cache["enabled"] == true)
+                $this->cacheEngine->createCacheDir($this->config->cache["dir"]);
         }
 
         public function setCache(string $filename,array $info){
-            $this->cacheEngine->setCache($filename,$info);
+            if($this->config->cache["enabled"] == true)
+                $this->cacheEngine->setCache($filename,$info) ;
         }
 
         public function getCache(string $filename){
-            return $this->cacheEngine->getCache($filename);
+            return ($this->config->cache["enabled"] == true) ? $this->cacheEngine->getCache($filename) : "";
         }
 
         public function clearCache(string $dir){
-            $this->cacheEngine->clearCache($dir);
+            if($this->config->cache["enabled"] == true)
+                $this->cacheEngine->clearCache($dir);
         }
 
         public function updateCacheFile(string $filename, array $info){
-            $this->cacheEngine->updateCacheFile($filename,$info);
+            if($this->config->cache["enabled"] == true)
+                $this->cacheEngine->updateCacheFile($filename,$info);
         }
 
         public function checkCache(string $filename){
-            return $this->cacheEngine->checkCache($filename);
+            return ($this->config->cache["enabled"] == true) ? $this->cacheEngine->checkCache($filename) : "";
         }
 
         public function getCacheEngine(){

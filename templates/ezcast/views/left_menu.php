@@ -1,6 +1,6 @@
     <div id="homeLeftSideBar" class="col-10 col-md-3 col-xl-2 bd-sidebar shadow">
         <?php if($this->auth->getInfo(LOGIN_PERMISSIONS) == 1) include "admin_menu.php";?>
-        <?php if(!empty($userCoursesCache)): ?>
+        <?php if(!empty($userCourses)): ?>
             <nav class="bd-links">
             <div class="list-group p-3 border-bottom d-md-none d-xl-none">
                 <form method="post" action="search.php?do=search">
@@ -14,8 +14,8 @@
             </div>
             <div class="list-group" id="leftSideBarLink">
             <?php
-                foreach ($userCoursesCache as $userCours){ ?>
-                <a href="<?=$this->url(array("file" => System::fileCourse, "parameters" => array("id" => $userCours["id"])));?>" class="p-3 border-bottom openCourse" rel="<?=$userCours["id"];?>" onclick="loadCourse(<?=$userCours["id"];?>); return false;">
+                foreach ($userCourses as $userCours){ ?>
+                <a href="<?=$this->url(array("file" => System::fileCourse, "parameters" => array("id" => $userCours["id"])));?>" class="p-3 border-bottom openCourse" rel="<?=$userCours["id"];?>" onclick='loadCourse("<?=$this->setTitle($userCours["course_code"]);?>",<?=$userCours["id"];?>); return false;'>
                     <span class="font-weight-bold">
                         <?=$userCours["course_code"];?>
                     </span>

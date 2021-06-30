@@ -8,21 +8,28 @@
         private $userID;
         private $courseCode;
         private $courseInfo;
-        const initUpload   = "initupload";
-        const processed    = "processed";
-        const processing   = "processing";
-        const scheduled    = "scheduled";
-        const failMoveFile = "failmovefile";
+        private $recordType;
+        private $recordPath;
+
+        const initUpload    = "initupload";
+        const processed     = "processed";
+        const processing    = "processing";
+        const scheduled     = "scheduled";
+        const failMoveFile  = "failmovefile";
+        const permitedFiles = array("ts","mov","m3u","m3u8");
+        const excludedFiles = array();
 
         function __construct($destination,array $courseInfo,int $userID)
         {
             parent::__construct();
+
+            $this->recordType  = array();
             $this->destination = $destination;
             $this->courseID    = $courseInfo["id"];
             $this->courseCode  = $courseInfo["course_code"];
             $this->courseInfo  = $courseInfo;
             $this->userID      = $userID;
-            $this->recordDir   = date($this->config->date_format) . "_" . $this->courseCode;
+            $this->recordDir   = $courseInfo["id"] . "/" . date($this->config->date_format) . "_" . $this->courseCode;
             //TODO CHECK IF DIRS EXISTS
         }
 
@@ -89,7 +96,8 @@
             $msg = array();
             foreach ($_FILES as $file) {
                 foreach ($file["name"] as $fileinfokey => $fileinfovalue) {
-                    $file_extension = pathinfo($file["name"][$fileinfokey][0])["extension"];
+                    $file_extension = pathinfo($file["name"][$fileinfokey][0]);
+                    $file_extension = $file_extension["extension"];
                     if (!in_array($file_extension, $this->config->allowed_extensions["extensions"])) {
                         //TODO INSERT LOG SYS
                         $logError = array(
@@ -124,8 +132,7 @@
                         return $msg;
                         break;
                     } else {
-                        //$filename = $fileinfokey . ".mov";
-                        $filename = $file["name"][$fileinfokey][0];
+                        $filename = $this->formatFileName("{$fileinfokey}-{$file["name"][$fileinfokey][0]}");
                         $fileupload = move_uploaded_file($file["tmp_name"][$fileinfokey][0], $this->getUploadDir() . "/" . $filename);
                         if($fileupload == false){
                             $msg = array(
@@ -136,15 +143,19 @@
                             return $msg;
                             break;
                         }
+                        else{
+                            $this->recordType[$fileinfokey] = $filename;
+                        }
                     }
                 }
             }
+            //$this->
             if (empty($msg)) {
+                $this->finishUpload(Upload::scheduled);
                 $msg = array(
                     "error" => false,
                     "msg" => $this->lang["file_uploaded_process"]
                 );
-                $this->finishUpload(Upload::scheduled);
                 return $msg;
             }
             else{
@@ -192,14 +203,16 @@
 
         private function finishUpload($status)
         {
+            $recordType = json_encode($this->recordType,true);
+            $recordPath = $this->recordDir;
             //Update status
-            $this->update(array("table"=>Databases::records, "fields" => "status = '{$status}' where id = '{$this->getUploadID()}'"));
+            $this->update(array("table"=>Databases::records, "fields" => "status = '{$status}', record_type = '{$recordType}', filepath = '{$recordPath}' where id = '{$this->getUploadID()}'"));
             //Update cache
             $this->updateCourseCache($this->courseID);
         }
 
         private function createRecordDir(){
-            $dir = $this->config->uploadDir[$this->destination] . "/" . $this->recordDir;
+            $dir = $this->config->uploadDir["repository"] . "/" . $this->recordDir;
             if(!is_dir($dir)) {
                 mkdir($dir, 0755, true);
                 return true;
@@ -210,7 +223,30 @@
         }
 
         private function getUploadDir(){
-            return $this->config->uploadDir[$this->destination] . "/" . $this->recordDir;
+            return $this->config->uploadDir["repository"] . "/" . $this->recordDir;
         }
 
+        private function formatFileName(string $filename){
+            $fileArray = explode('.',$filename);
+            $extension = end($fileArray);
+            $filename = preg_replace('/[^a-zA-Z0-9_-]+/', '-', strtolower($filename)) . ".{$extension}";
+            return $filename;
+        }
+
+        public function rsyncFromRecorder(string $repository,array $serverinfo)
+        {
+            $excludedFile = "";
+            if (!empty(self::excludedFiles)) {
+                foreach (self::excludedFiles as $file) {
+                    $excluded[] = "--exclude={$file}";
+                }
+                $excludedFile = implode(" ",$excluded);
+            }
+
+            $cmd = $this->config->cli["rsync"] .
+                " -azvP {$excludedFile} --rsync-path=
+                \"mkdir -p {$repository} && rsync
+                \" {$serverinfo["username"]}@{$serverinfo["ip"]}:{$serverinfo["repository"]}  >> log.log  2>&1 &";
+            return $cmd;
+        }
     }
